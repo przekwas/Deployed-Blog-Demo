@@ -1,0 +1,13 @@
+$theme-colors: (
+    "primary": #FA6BFF,
+    "secondary": #AE3CD7,
+    "danger": #43005B,
+    "success": #46FFA4,
+    "warning": #74FFDE
+);
+
+.bg-red {
+    background-color: red;
+}
+
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
