@@ -6,6 +6,7 @@ import Blogs from './queries/blogs';
 import Users from './queries/users';
 import AccessTokens from './queries/accesstokens';
 import Blogtags from './queries/blogtags';
+import Tags from './queries/tags';
 
 //node - mysql connection pool
 export const pool = mysql.createPool(config.mysql);
@@ -25,5 +26,6 @@ export default {
     Blogs,
     Users,
     AccessTokens,
-    Blogtags
+    Blogtags,
+    Tags
 }

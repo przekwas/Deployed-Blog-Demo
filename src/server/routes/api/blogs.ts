@@ -50,10 +50,21 @@ router.put('/:id', isAdmin, async (req, res, next) => {
     let id = req.params.id;
     let blog = req.body;
     try {
+
+        // {
+        //     title: "derp",
+        //     body: "herp",
+        //     authorid: 1
+        // }
+
+        //title = "derp", body = "herp", authorid = 1
+
+        //UPDATE Blogs SET title = "derp", body= "herp", authorid = 1 WHERE id = 1;
+
         let placeholderColumns = Object.keys(blog).map(key => [`${key}="${blog[key]}"`]);
         let updateBlog = placeholderColumns.join(', ');
         await DB.Blogs.editBlog(updateBlog, id);
-        res.json({ message: 'Blogged!' });
+        res.json('edited!');
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
