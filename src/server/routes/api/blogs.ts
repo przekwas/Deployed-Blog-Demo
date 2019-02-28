@@ -35,10 +35,12 @@ router.get('/:id?', async (req, res, next) => {
 
 router.post('/', isAdmin, async (req, res, next) => {
     try {
-        let blog = req.body;
+        let blog = { ...req.body };
+        delete blog.tagid;
         let columns = Object.keys(blog).join(', ');
         let values = Object['values'](blog);
-        await DB.Blogs.postBlog(columns, values);
+        let result: any = await DB.Blogs.postBlog(columns, values);
+        await DB.Blogtags.insert([result.insertId, req.body.tagid]);
         res.json({ message: 'Blogged!' });
     } catch (e) {
         console.log(e);
