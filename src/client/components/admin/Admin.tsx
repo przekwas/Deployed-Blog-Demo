@@ -7,18 +7,27 @@ class Admin extends React.Component<IAdminProps, IAdminState> {
     constructor(props: IAdminProps) {
         super(props);
         this.state = {
-            title: null,
-            body: null,
-            saveStatus: null
+            title: "",
+            body: "",
+            saveStatus: null,
+            tagid: "0",
+            tags: []
         };
     }
 
     private alert: JSX.Element = null;
     private saving: boolean = false;
 
-    componentDidMount() {
+    async componentDidMount() {
         if (!User || User.userid === null || User.role !== 'admin') {
             this.props.history.replace('/login');
+        }
+
+        try {
+            let tags = await json('/api/tags');
+            this.setState({ tags });
+        } catch (e) {
+            console.log(e);
         }
     }
 
@@ -28,10 +37,11 @@ class Admin extends React.Component<IAdminProps, IAdminState> {
 
         if (this.saving) return;
 
-        let blog: { authorid: number, title: string, body: string } = {
+        let blog: { authorid: number, title: string, body: string, tagid: string } = {
             authorid: User.userid,
             title: this.state.title,
-            body: this.state.body
+            body: this.state.body,
+            tagid: this.state.tagid
         };
 
         try {
@@ -78,6 +88,14 @@ class Admin extends React.Component<IAdminProps, IAdminState> {
                                 placeholder="Enter a title .."
                                 value={this.state.title}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ title: e.target.value })} />
+                            <label>Tag</label>
+                            <select
+                                value={this.state.tagid}
+                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.setState({ tagid: e.target.value })}
+                                className="form-control">
+                                <option value="0">Select a tag ... </option>
+                                {this.state.tags.map(tag => (<option key={tag.id} value={tag.id}>{tag.name}</option>))}
+                            </select>
                             <label>Content</label>
                             <textarea
                                 rows={5}
@@ -88,7 +106,7 @@ class Admin extends React.Component<IAdminProps, IAdminState> {
                             <button
                                 type="submit"
                                 className="btn btn-warning d-block border border-primary mt-2 p-2 shadow">Submit Blog</button>
-                                {this.alert}
+                            {this.alert}
                         </form>
                     </div>
                 </section>
@@ -103,6 +121,12 @@ interface IAdminState {
     title: string;
     body: string;
     saveStatus: string;
+    tagid: string;
+    tags: {
+        id: number,
+        name: string,
+        _created: Date
+    }[];
 }
 
 export default Admin;
