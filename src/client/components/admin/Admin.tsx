@@ -53,6 +53,7 @@ class Admin extends React.Component<IAdminProps, IAdminState> {
                     body: '',
                     saveStatus: 'success'
                 });
+                this.props.history.push('/');
             } else {
                 this.setState({ saveStatus: 'error' });
             }

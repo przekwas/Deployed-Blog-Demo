@@ -58,5 +58,5 @@ interface ISingleBlogState {
         firstname: string,
         lastname: string
     };
-    tags: { name: string }[]
+    tags: { id: number, name: string }[]
 }

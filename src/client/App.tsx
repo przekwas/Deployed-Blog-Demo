@@ -6,6 +6,7 @@ import AllBlogs from './components/public/AllBlogs';
 import SingleBlog from './components/public/SingleBlog';
 import Admin from './components/admin/Admin';
 import Login from './components/admin/Login';
+import Edit from './components/admin/Edit';
 
 export default class App extends React.Component<IAppProps, IAppState> {
 
@@ -18,6 +19,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
                         <Route exact path='/' component={AllBlogs} />
                         <Route exact path='/single/:id' component={SingleBlog} />
                         <Route exact path='/admin' component={Admin} />
+                        <Route exact path='/edit/:id' component={Edit} />
                         <Route exact path='/login' component={Login} />
                     </Switch>
                 </>

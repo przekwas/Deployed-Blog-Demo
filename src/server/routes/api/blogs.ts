@@ -52,21 +52,10 @@ router.put('/:id', isAdmin, async (req, res, next) => {
     let id = req.params.id;
     let blog = req.body;
     try {
-
-        // {
-        //     title: "derp",
-        //     body: "herp",
-        //     authorid: 1
-        // }
-
-        //title = "derp", body = "herp", authorid = 1
-
-        //UPDATE Blogs SET title = "derp", body= "herp", authorid = 1 WHERE id = 1;
-
         let placeholderColumns = Object.keys(blog).map(key => [`${key}="${blog[key]}"`]);
         let updateBlog = placeholderColumns.join(', ');
         await DB.Blogs.editBlog(updateBlog, id);
-        res.json('edited!');
+        res.json({ message: 'Blogged!' });
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
@@ -76,6 +65,7 @@ router.put('/:id', isAdmin, async (req, res, next) => {
 router.delete('/:id', isAdmin, async (req, res, next) => {
     let id = req.params.id;
     try {
+        await DB.Blogtags.destroy(id);
         await DB.Blogs.deleteBlog(id);
         res.json({ message: 'Blogged!' });
     } catch (e) {
